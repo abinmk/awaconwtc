@@ -4,17 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firebase Data Display</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Firebase Data Display</h1>
-  <p>Distance: <span id="distance"></span></p>
-  <p>Pressure: <span id="pressure"></span></p>
-  <p>Timestamp: <span id="timestamp"></span></p>
+  <div class="container">
+    <h1>AWACON WTC REALTIME DATA</h1>
+    <div class="data-container">
+      <div class="data-item">
+        <h2>Distance</h2>
+        <p id="distance">Loading...</p>
+      </div>
+      <div class="data-item">
+        <h2>Motor Status</h2>
+        <p id="motor-status">Loading...</p>
+      </div>
+      <div class="data-item">
+        <h2>Timestamp</h2>
+        <p id="timestamp">Loading...</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Include Firebase JavaScript SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-database-compat.js"></script>
-
 
   <!-- Include your custom JavaScript -->
   <script src="script.js"></script>
