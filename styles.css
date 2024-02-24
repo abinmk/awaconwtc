@@ -28,6 +28,7 @@ body {
 }
 
 .data-container {
+  z-index: 1000;
   max-height: 80vh; /* Set the maximum height for the table */
   overflow-y: auto; /* Enable vertical scrolling */
   scroll-behavior: smooth;
@@ -54,7 +55,7 @@ th{
 .container {
   max-width: 100%;
   margin: 50px auto;
-  margin-top: 9vh;
+  margin-top: 10vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
