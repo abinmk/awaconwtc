@@ -9,7 +9,16 @@ const firebaseConfig = {
     appId: "1:1095771274237:web:66fc399a5415caa5bf3794"
   };
   
+  function exportToExcel() {
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.table_to_sheet(document.getElementById("dataTable"));
+    
+    // Example: Apply background color to header row
+    ws["A1"].s = { fill: { patternType: "solid", fgColor: { rgb: "FF0000" } } };
 
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "table_data.xlsx");
+}
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 

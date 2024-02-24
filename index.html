@@ -9,6 +9,8 @@
 <body>
   <div class="header-container">
     <img class="logo" src="logo.png">
+    <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
+
   </div>
   <div class="container">
     <div class="data-container">
@@ -27,6 +29,10 @@
   <!-- Include Firebase JavaScript SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-database-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 
   <!-- Include your custom JavaScript -->
   <script src="script.js"></script>
