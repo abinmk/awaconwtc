@@ -11,7 +11,7 @@ body {
   padding: 10px
 }
 .header-container {
-  height: 15vh;
+  height: 10vh;
   position: fixed;
   display: flex;
   top: 0;
@@ -54,7 +54,7 @@ th{
 .container {
   max-width: 100%;
   margin: 50px auto;
-  margin-top: 15vh;
+  margin-top: 10vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
