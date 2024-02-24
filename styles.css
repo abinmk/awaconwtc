@@ -31,9 +31,10 @@ th, td {
 }
 
 th {
+  color: #f4f4f4;
   position: sticky;
   top: 0;
-  background-color: #ffffff; /* Optional: Set a background color */
+  background-color: #070707; /* Optional: Set a background color */
 }
 .container {
   max-width: 800px;
