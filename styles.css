@@ -6,8 +6,8 @@ body {
 }
 .logo{
   height: 60px;
-  margin: auto;
-  float: left;
+  margin-right:69%;
+  margin-left: 22px;
   padding: 10px
 }
 .header-container {
@@ -16,7 +16,7 @@ body {
   display: flex;
   width: 100%;
   top: 0;
-  left: 0;
+  right: 0;
   z-index: 1000;
   background-color: #ffffff; /* Optional: Set a background color */
   padding: 10px;
@@ -29,7 +29,7 @@ body {
 
 .export-button {
   background-color: #ffffff;
-  position: fixed;
+  position: relative;
   padding: 5px 5px;
   height: 35px;
   right: 0;
