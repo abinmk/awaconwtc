@@ -11,17 +11,29 @@ body {
 }
 #sensorHeading{
   float: left;
-  font-size: 20px
+  font-size: 15px
+}
+
+.table-container {
+  max-height: 300px; /* Set the maximum height for the table */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
 }
+
 th, td {
+  padding: 8px;
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px; /* Set padding here */
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff; /* Optional: Set a background color */
 }
 .container {
   max-width: 800px;
