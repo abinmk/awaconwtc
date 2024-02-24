@@ -2,22 +2,34 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
 }
 .logo{
   width: 25vh;
   margin-left: auto;
   margin-right: auto;
 }
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff; /* Optional: Set a background color */
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Add shadow for visual separation */
+}
 #sensorHeading{
   float: left;
   font-size: 15px
 }
 
-.table-container {
-  max-height: 300px; /* Set the maximum height for the table */
+.data-container {
+  max-height: 80vh; /* Set the maximum height for the table */
   overflow-y: auto; /* Enable vertical scrolling */
+  scroll-behavior: smooth;
 }
+
 
 table {
   width: 100%;
@@ -30,15 +42,16 @@ th, td {
   text-align: left;
 }
 
-th {
+th{
   color: #f4f4f4;
   position: sticky;
   top: 0;
   background-color: #070707; /* Optional: Set a background color */
 }
 .container {
-  max-width: 800px;
+  max-width: 100%;
   margin: 50px auto;
+  margin-top: 10vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -57,10 +70,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.data-container {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 
 .data-item {
   flex: 1 1 300px;

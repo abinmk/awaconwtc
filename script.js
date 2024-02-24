@@ -63,7 +63,6 @@ console.log(formattedDate);
     
     switch(j)
     {
-
       case 1:cell.innerHTML = day+"/"+month+"/"+year;break;
       case 2:cell.innerHTML = hour+":"+minute+":"+second;break;
       case 3:cell.innerHTML = data.Distance+" cm";break;
