@@ -29,10 +29,6 @@ const database = firebaseApp.database();
 function updateDataOnPage(snapshot) {
   const data = snapshot.val();
   if (data) {
-    document.getElementById('distance').innerText = data.Distance || 'N/A';
-    document.getElementById('motor-status').innerText = data.Pressure || 'N/A';
-    
-
 const unixTimestamp = data.Timestamp; // Example timestamp
 
 // // Create a new Date object with the Unix timestamp
@@ -59,10 +55,30 @@ const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toStri
 console.log(formattedDate);
 
 
-    document.getElementById('timestamp').innerText = formattedDate || 'N/A';
+  var table = document.getElementById("dataTable");
+  var row = table.insertRow();
+  let PrevDistance;
+  for (var j = 1; j <= 5; j++) {
+    var cell = row.insertCell();
+    
+    switch(j)
+    {
+
+      case 1:cell.innerHTML = day+"/"+month+"/"+year;break;
+      case 2:cell.innerHTML = hour+":"+minute+":"+second;break;
+      case 3:cell.innerHTML = data.Distance+" cm";break;
+      case 4:cell.innerHTML = data.Distance-PrevDistance;break;
+      case 5:cell.innerHTML = data.Pressure;break;
+    }
+    PrevDistance = data.Distance;
+}
   } else {
     console.log('Data not found');
   }
+
+
+
+
 }
 
 // Fetch data from Firebase and update the webpage

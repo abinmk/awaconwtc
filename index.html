@@ -8,20 +8,18 @@
 </head>
 <body>
   <div class="container">
-    <h1>AWACON REALTIME DATA</h1>
+    <img class="logo" src="logo.png">
+    <h1>SENSOR DATA</h1>
     <div class="data-container">
-      <div class="data-item">
-        <h2>Distance</h2>
-        <p  class="data" id="distance">Loading...</p>
-      </div>
-      <div class="data-item">
-        <h2>Motor Status</h2>
-        <p class="data" id="motor-status">Loading...</p>
-      </div>
-      <div class="data-item">
-        <h2>Timestamp</h2>
-        <p  class="data" id="timestamp">Loading...</p>
-      </div>
+      <table border="1" id="dataTable">
+        <tr id="trCell">
+          <th>Date</th>
+          <th>Time</th>
+          <th>Sensor Data</th>
+          <th>Difference</th>
+          <th>Motor Status</th>
+        </tr>
+      </table>
     </div>
   </div>
 
