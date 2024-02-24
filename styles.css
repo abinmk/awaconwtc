@@ -28,14 +28,10 @@ body {
 }
 
 .export-button {
-  position: fixed;
-  display: flex;
-  top: 25px;
-  right: 20px;
-  z-index: 2000;
+  display: inline-block;
   padding: 5px 5px;
   height: 35px;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
