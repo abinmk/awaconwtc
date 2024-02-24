@@ -11,7 +11,7 @@ const firebaseConfig = {
   
   function exportToExcel() {
     var wb = XLSX.utils.book_new();
-    var ws = XLSX.utils.table_to_sheet(document.getElementById("dataTable"));
+    var ws = XLSX.utils.Awacon_Sensor_Data(document.getElementById("dataTable"));
     
     // Example: Apply background color to header row
     ws["A1"].s = { fill: { patternType: "solid", fgColor: { rgb: "FF0000" } } };
