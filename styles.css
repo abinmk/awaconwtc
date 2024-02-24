@@ -5,12 +5,13 @@ body {
   background-color: #ffffff;
 }
 .logo{
-  height: 50px;
-  margin-left: auto;
+  height: 60px;
+  margin: auto;
   margin-right: auto;
   padding: 10px
 }
 .header-container {
+  height: 15vh;
   position: fixed;
   display: flex;
   top: 0;
