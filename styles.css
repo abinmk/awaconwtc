@@ -4,65 +4,68 @@ body {
   padding: 0;
   background-color: #ffffff;
 }
-.logo{
-  height: 60px;
-  margin-right:69vw;
-  margin-left: 22px;
-  padding: 10px
-}
+
 .header-container {
   height: 10vh;
   position: fixed;
   display: flex;
+  align-items: center;
   width: 100%;
   top: 0;
-  right: 0;
+  left: 0;
   z-index: 1000;
-  background-color: #ffffff; /* Optional: Set a background color */
+  background-color: #ffffff;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Add shadow for visual separation */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-#sensorHeading{
-  float: left;
-  font-size: 15px
+
+.logo {
+  height: 60px;
+  margin-right: 5%;
+  margin-left: 2%;
+  padding: 10px;
 }
 
 .export-button {
-  background-color: #ffffff;
-  position: relative;
-  padding: 5px 5px;
-  height: 35px;
-  right: 0;
-  margin: 20px;
+  background-color: #00ba7c;
+  padding: 10px 20px;
+  height: 37px;
+  margin: 0 30px 0 auto; /* Adjusted margin */
   font-size: 14px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  border: 2px solid #1fba00; /* Blue border */
-  color: #ffffff; /* White text */
-  background-color: #00ba7c; /* Blue background */
+  border: 2px solid #1fba00;
+  color: #ffffff;
   border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
+
 .export-button i {
-  margin-right: 6px; /* Adjust spacing between icon and text */
+  margin-right: 6px;
 }
 
 .export-button:hover {
-  background-color: #12b600; /* Darker blue background on hover */
-  border-color: #03a459; /* Darker blue border on hover */
+  background-color: #12b600;
+  border-color: #03a459;
 }
 
-
+.container {
+  max-width: 100%;
+  margin-top: 10vh;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .data-container {
   z-index: 1000;
-  max-height: 80vh; /* Set the maximum height for the table */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 80vh;
+  overflow-y: auto;
   scroll-behavior: smooth;
 }
-
 
 table {
   width: 100%;
@@ -75,51 +78,9 @@ th, td {
   text-align: left;
 }
 
-th{
+th {
   color: #f4f4f4;
   position: sticky;
   top: 0;
-  background-color: #000000; /* Optional: Set a background color */
-}
-.container {
-  max-width: 100%;
-  margin: 50px auto;
-  margin-top: 10vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.data{
-  font-size: 58px;
-  color: #f4f4f4;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-
-
-.data-item {
-  flex: 1 1 300px;
-  margin: 10px;
-  padding: 20px;
   background-color: #000000;
-  color: rgb(245, 17, 17);
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.data-item h2 {
-  margin-top: 0;
-}
-
-.data-item p {
-  margin: 0;
-  font-size: 18px;
 }
