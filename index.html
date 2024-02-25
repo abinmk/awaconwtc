@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AWACON</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWACON</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="header-container">
-    <img class="logo" src="logo.png">
-    <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
+<div class="header-container">
+  <img class="logo" src="logo.png">
+  <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
+</div>
+<div class="container">
+  <div class="data-container" id="dataContainer">
+    <span id="dataCycle">Data cycle : 1</span>
+    <table border="1" class="dataTable" id="data1">
+      <tr id="trCell">
+        <th>Sl No</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Sensor Data</th>
+        <th>Difference</th>
+        <th>Motor Status</th>
+      </tr>
+      <!-- Add your table data rows here -->
+    </table>
   </div>
-  <div class="container">
-    <div class="data-container">
-      <table border="1" id="dataTable">
-        <tr id="trCell">
-          <th>Date</th>
-          <th>Time</th>
-          <th>Sensor Data</th>
-          <th>Difference</th>
-          <th>Motor Status</th>
-        </tr>
-      </table>
-    </div>
+  <div>
+    <button onclick="selectPage(1)">1</button>
+    <button onclick="selectPage(2)">2</button>
+    <button onclick="selectPage(3)">3</button>
   </div>
+</div>
 
-  <!-- Include Firebase JavaScript SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-database-compat.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
-
-  <!-- Include your custom JavaScript -->
-  <script src="script.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

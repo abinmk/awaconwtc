@@ -1,3 +1,4 @@
+/* Resetting default styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -5,6 +6,7 @@ body {
   background-color: #ffffff;
 }
 
+/* Header styles */
 .header-container {
   height: 10vh;
   position: fixed;
@@ -19,6 +21,7 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo styles */
 .logo {
   height: 60px;
   margin-right: 5%;
@@ -26,6 +29,7 @@ body {
   padding: 10px;
 }
 
+/* Export button styles */
 .export-button {
   background-color: #00ba7c;
   padding: 10px 20px;
@@ -41,7 +45,6 @@ body {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-
 .export-button i {
   margin-right: 6px;
 }
@@ -51,6 +54,7 @@ body {
   border-color: #03a459;
 }
 
+/* Main content container */
 .container {
   max-width: 100%;
   margin-top: 10vh;
@@ -60,13 +64,15 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Scrollable data container */
 .data-container {
   z-index: 1000;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y:scroll;
   scroll-behavior: smooth;
 }
 
+/* Table styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,6 +84,7 @@ th, td {
   text-align: left;
 }
 
+/* Sticky table header */
 th {
   color: #f4f4f4;
   position: sticky;
