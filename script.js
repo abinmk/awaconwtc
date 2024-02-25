@@ -77,12 +77,43 @@ function updateDataOnPage(snapshot, serial) {
 function selectPage(value) {
   page = value;
   document.getElementById('dataCycle').innerHTML = "Data Cycle : " + page;
-  fetchData();
+  
+  // Hide all tables first
+  document.querySelectorAll('.dataTable').forEach(table => {
+    table.style.display = 'none';
+  });
+
+  // Show the selected table
+  document.getElementById(`data${page}`).style.display = '';
+
+  // Clear the content of the selected table
+  document.getElementById(`data${page}`).innerHTML = '';
+
+  // Reset slno to start fetching data from the beginning
+  slno = 0;
+  intervalId = setInterval(fetchData, 1); // Store the interval ID
+  fetchData(); // Fetch data for the selected page
+}
+
+
+function showLoadingOverlay() {
+  document.getElementById('loadingOverlay').style.display = 'block';
+}
+
+function hideLoadingOverlay() {
+  document.getElementById('loadingOverlay').style.display = 'none';
 }
 
 function fetchData() {
+  if (slno >= 500) {
+    console.log("Reached maximum slno. Stopping loading.");
+    slno=0;hideLoadingOverlay()
+    clearInterval(intervalId); // Stop the interval timer
+    return; // Stop further execution if slno is 500 or greater
+  }
   slno++;
   let currentSlno = slno; // Store the current value of slno
+  showLoadingOverlay();
 
   switch (page) {
       case 2:
@@ -99,12 +130,18 @@ function fetchData() {
   databaseRef.once('value')
       .then(snapshot => {
           updateDataOnPage(snapshot, currentSlno); // Pass currentSlno to updateDataOnPage
+          
       })
       .catch(error => {
           console.error('Error fetching data:', error);
+          hideLoadingOverlay()
       });
 }
 
 // Call fetchData immediately and then at intervals
 fetchData();
-setInterval(fetchData, 1);
+let intervalId; // Variable to store the interval ID
+
+// Call fetchData immediately and then at intervals
+fetchData();
+intervalId = setInterval(fetchData, 1); // Store the interval ID

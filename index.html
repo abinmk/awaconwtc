@@ -14,8 +14,11 @@
 <div class="container">
   <div class="data-container" id="dataContainer">
     <span id="dataCycle">Data cycle : 1</span>
+    <div class="overlay" id="loadingOverlay">
+      <div class="spinner"></div> <!-- Loading spinner -->
+    </div>
     <table border="1" class="dataTable" id="data1">
-      <tr id="trCell">
+      <tr class="tableHeader">
         <th>Sl No</th>
         <th>Date</th>
         <th>Time</th>
@@ -23,6 +26,12 @@
         <th>Difference</th>
         <th>Motor Status</th>
       </tr>
+      <!-- Add your table data rows here -->
+    </table>
+    <table border="1" class="dataTable" id="data2">
+      <!-- Add your table data rows here -->
+    </table>
+    <table border="1" class="dataTable" id="data3">
       <!-- Add your table data rows here -->
     </table>
   </div>
