@@ -136,6 +136,7 @@ body {
 
 /* Table styles */
 table {
+  font-size: .8rem;
   width: 100%;
   border-collapse: collapse;
 }
@@ -144,11 +145,12 @@ th, td {
   padding: 8px;
   border: 1px solid #dddddd;
   text-align: left;
+  font-size: .8rem;
 }
 
 /* Sticky table header */
 th {
-  font-size: 10px;
+  font-size: .8rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: #f4f4f4;
   background-color: #000000;
