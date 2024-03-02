@@ -52,7 +52,7 @@ body {
 
 #heading1{
     font-family: 'Montserrat', sans-serif;
-    font-size: 24px; /* Adjust font size as needed */
+    font-size: 18px; /* Adjust font size as needed */
     font-weight: bold; /* Ensure the heading stands out */
     border-radius: 10px; /* Add rounded corners */
     padding: 10px 20px; /* Add padding for spacing */
@@ -149,6 +149,8 @@ th, td {
 
 /* Sticky table header */
 th {
+  font-size: 16px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: #f4f4f4;
   background-color: #000000;
   position: sticky;
@@ -181,5 +183,18 @@ th {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+/* Default styles for the live data heading */
+#heading1{
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Media query to hide the live data heading on small screens */
+@media only screen and (max-width: 900px) {
+  #heading1 {
+    display: none;
+  }
 }
 
