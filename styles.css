@@ -1,9 +1,73 @@
-/* Resetting default styles */
+Resetting default styles
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #ffffff;
+}
+
+.page-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  color: #000000;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  top:10px;
+}
+
+.page-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+/* Loader styles */
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light border */
+  border-top: 4px solid #000000; /* Black border for loader animation */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite; /* Spin animation */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Ensure loader is above other elements */
+  display: none; /* Initially hidden */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+#heading1{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold; /* Ensure the heading stands out */
+    border-radius: 10px; /* Add rounded corners */
+    padding: 10px 20px; /* Add padding for spacing */
+    text-align: center; /* Center align text */
+    color: rgb(8, 8, 38);
+  }
+  
+/* Sticky data cycle heading */
+#dataCycle {
+  position: sticky;
+  top:10vh; /* Adjust as needed based on your layout */
+  background-color: #ffffff;
+  font-size: 20px;
+
+  z-index: 100;
 }
 
 /* Header styles */
@@ -24,35 +88,33 @@ body {
 /* Logo styles */
 .logo {
   height: 60px;
-  margin-right: 5%;
-  margin-left: 2%;
   padding: 10px;
 }
 
-/* Export button styles */
 .export-button {
-  background-color: #00ba7c;
-  padding: 10px 20px;
-  height: 37px;
-  margin: 0 30px 0 auto; /* Adjusted margin */
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
+  background-color: #00ba7c; /* Green background color */
+  padding: 10px; /* Adjust padding as needed */
+  font-size: 0; /* Hide text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Make button circular */
   cursor: pointer;
-  border: 2px solid #1fba00;
-  color: #ffffff;
-  border-radius: 5px;
-  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  margin-right: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto; /* Push button to the right */
 }
 
 .export-button i {
-  margin-right: 6px;
+  font-size: 24px; /* Adjust icon size as needed */
+  color: #ffffff; /* Icon color */
 }
 
 .export-button:hover {
-  background-color: #12b600;
-  border-color: #03a459;
+  background-color: #12b600; /* Green background color on hover */
 }
+
+
 
 /* Main content container */
 .container {
@@ -67,7 +129,8 @@ body {
 /* Scrollable data container */
 .data-container {
   z-index: 1000;
-  max-height: 80vh;
+  max-height: 72vh;
+  min-height: 72vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
@@ -91,31 +154,32 @@ th {
   position: sticky;
   top: 0;
 }
-.overlay {
+/* Loader overlay styles */
+.loader-overlay {
   position: fixed;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-  display: none; /* Initially hidden */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+  z-index: 1000; /* Ensure the loader is above other elements */
+  display: block; /* Initially hidden */
+  justify-content: center;
+  align-items: center;
 }
 
-/* Loading spinner styles */
-.spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 8px solid #f3f3f3; /* Light grey */
-  border-top: 8px solid #3498db; /* Blue */
+/* Loader styles */
+.loader-overlay .loader {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light border */
+  border-top: 4px solid #000000; /* Black border for loader animation */
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 2s linear infinite; /* Spin animation */
+  animation: spin 1s linear infinite; /* Spin animation */
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
