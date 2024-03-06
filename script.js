@@ -29,8 +29,8 @@ function fetchDataForCurrentPage() {
   tbody.innerHTML = ''; // Clear previous data
   table.style.display = ''; // Show the table for the current page
 
-  const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/data${currentPage}`);
-
+  const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
+  let slNo=1;
   databaseRef.once('value')
     .then(snapshot => {
       snapshot.forEach(childSnapshot => {
@@ -38,7 +38,7 @@ function fetchDataForCurrentPage() {
         const row = tbody.insertRow();
         const formattedDate = rotateDateFormat(formatDate(data.Timestamp));
         row.innerHTML = `
-          <td>${childSnapshot.key}</td>
+          <td>${slNo++}</td>
           <td>${formattedDate}</td>
           <td>${formatTime(data.Timestamp)}</td>
           <td>${data.Distance} cm</td>
@@ -82,17 +82,20 @@ function formatDate(timestamp) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return `${day}-${month}-${year}`;
 }
 
 // Function to format timestamp to time
 function formatTime(timestamp) {
   const date = new Date(timestamp * 1000);
+  date.setHours(date.getHours() - 5); // Add 5 hours
+  date.setMinutes(date.getMinutes() - 30); // Add 30 minutes
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const seconds = date.getSeconds().toString().padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
 }
+
 function exportToExcel() {
   var wb = XLSX.utils.book_new();
 
@@ -118,3 +121,5 @@ function showLoader() {
 function hideLoader() {
   document.getElementById('loader-overlay').style.display = 'none';
 }
+
+
