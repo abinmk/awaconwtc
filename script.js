@@ -31,20 +31,50 @@ function fetchDataForCurrentPage() {
 
   const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
   let slNo=1;
+  let prevDistance=0;
   databaseRef.once('value')
     .then(snapshot => {
       snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const row = tbody.insertRow();
         const formattedDate = rotateDateFormat(formatDate(data.Timestamp));
+        let currentDistance = parseInt(data.Distance);
+        let difference = prevDistance !== null ? Math.abs(currentDistance - prevDistance) : null;
         row.innerHTML = `
           <td>${slNo++}</td>
           <td>${formattedDate}</td>
           <td>${formatTime(data.Timestamp)}</td>
-          <td>${data.Distance} cm</td>
-          <td>${data.Difference} cm</td>
-          <td>${data.Pressure}</td>
+          <td class="row" id="distanceCell">${data.Distance} cm</td>
+          <td id="diff">${difference} cm</td>
+          <td id="motorStatus">${"NA"}</td>
         `;
+        const distanceCell = row.querySelector('#distanceCell');
+        const diff = row.querySelector('#diff');
+        const motorStatus = row.querySelector('#motorStatus'); // Select motorStatus cell
+
+        if (data.Distance === "ERR_PWR") {
+            prevDistance=0;
+            distanceCell.style.backgroundColor = "red";
+            distanceCell.innerHTML = "ERR_PWR";
+            distanceCell.style.color = "white";
+            diff.innerHTML = "NA";
+        }
+        if(prevDistance==0 || prevDistance==null)
+        {
+          diff.innerHTML = "NA";
+        }
+
+        if (data.Distance >75) {
+          distanceCell.style.backgroundColor = "yellow";
+          distanceCell.style.color = "black";
+          motorStatus.innerHTML = "~MOTOR ON";
+      }
+      if (data.Distance <25) {
+        distanceCell.style.backgroundColor = "lightgreen";
+        distanceCell.style.color = "black";
+        motorStatus.innerHTML = "~MOTOR OFF";
+    }
+    prevDistance = currentDistance;
       });
       hideLoader();
     })
@@ -53,6 +83,28 @@ function fetchDataForCurrentPage() {
     });
    
 }
+
+// function setDelayToFirebase() {
+//   const delayInput = document.getElementById('delayInput');
+//   const delayValue = delayInput.value;
+
+//   if (!delayValue) {
+//     alert("Please enter a delay value");
+//     return;
+//   }
+
+//   const delayRef = firebase.database().ref('UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/DataSetSL/Delay');
+
+//   // Set the delay value to Firebase
+//   delayRef.set(parseInt(delayValue))
+//     .then(() => {
+//       console.log("Delay value has been set successfully");
+//     })
+//     .catch(error => {
+//       console.error("Error setting delay value:", error);
+//     });
+// }
+
 
 function rotateDateFormat(dateString) {
   const parts = dateString.split('/');

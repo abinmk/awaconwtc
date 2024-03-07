@@ -5,6 +5,11 @@ body {
   padding: 0;
   background-color: #ffffff;
 }
+.inputDiv{
+  display: flex;
+  flex-direction: row;
+  float: right;
+}
 
 .page-btn {
   display: inline-block;
@@ -128,8 +133,8 @@ body {
 /* Scrollable data container */
 .data-container {
   z-index: 1000;
-  max-height: 72vh;
-  min-height: 72vh;
+  max-height: 65vh;
+  min-height: 65vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
