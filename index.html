@@ -7,6 +7,7 @@
 <link rel="stylesheet"  href="styles.css">
 </head>
 <body onload="selectPage(1)">
+
   <div id="loader-overlay" class="loader-overlay">
     <div class="loader"></div>
   </div>   
@@ -86,12 +87,17 @@
     <button class="page-btn" onclick="selectPage(2)">Data 2</button>
     <button class="page-btn" onclick="selectPage(3)">Data 3</button>
     <button class="page-btn" onclick="selectPage(4)">Data 4</button>
+    <button id="showChartButton" class="page-btn">Show Chart</button>
+    <div id="chartContainer" style="display: none;">
+      <canvas id="distanceChart"></canvas>
+    </div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <script src="script.js"></script>

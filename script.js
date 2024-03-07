@@ -175,3 +175,61 @@ function hideLoader() {
 }
 
 
+function createChart(data) {
+  const timestamps = Object.keys(data);
+  const distances = Object.values(data).map(entry => entry.Distance);
+  const ctx = document.getElementById('distanceChart').getContext('2d');
+
+  const distanceChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: timestamps,
+      datasets: [{
+        label: 'Distance',
+        data: distances,
+        borderColor: 'blue',
+        backgroundColor: 'transparent',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Distance (cm)'
+          }
+        }
+      }
+    }
+  });
+ 
+  document.getElementById('chartContainer').style.display = 'block';
+}
+
+
+
+// Event listener for the button click
+document.getElementById('showChartButton').addEventListener('click', () => {
+  const chartContainer = document.getElementById('chartContainer');
+  
+  // Toggle chart container visibility
+  if (chartContainer.style.display === 'block') {
+    chartContainer.style.display = 'none'; // Hide chart container
+  } else {
+    // Fetch data from Firebase
+    document.getElementById('chartContainer').style.display = 'block';
+    const databaseRef = firebase.database().ref('UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day1');
+    databaseRef.once('value')
+      .then(snapshot => {
+        const distanceData = snapshot.val();
+        createChart(distanceData); // Call the function to create the chart
+        chartContainer.style.display = 'block'; // Show chart container
+      })
+      .catch(error => {
+        console.error('Error fetching data from Firebase:', error);
+      });
+  }
+});
+
+
