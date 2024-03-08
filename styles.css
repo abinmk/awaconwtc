@@ -200,7 +200,8 @@ th {
 }
 #chartContainer{
   display: none;
-  height: 80vh;
+  margin-top: 10px;
+  max-height: 80vh;
 }
 .labelPage{
   color: rgb(10, 10, 57);
