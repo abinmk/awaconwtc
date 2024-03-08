@@ -200,11 +200,7 @@ th {
 }
 #chartContainer{
   display: none;
-}
-#msg{
-  color: #ffffff;
-  padding: 7px;
-  background-color: rgb(255, 111, 0);
+  height: 80vh;
 }
 .labelPage{
   color: rgb(10, 10, 57);
