@@ -135,8 +135,8 @@ body {
 /* Scrollable data container */
 .data-container {
   z-index: 1000;
-  max-height: 74vh;
-  min-height: 74vh;
+  max-height: 75vh;
+  min-height: 75vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
@@ -201,7 +201,12 @@ th {
 #chartContainer{
   display: none;
 }
-#labelPage{
+#msg{
+  color: #ffffff;
+  padding: 7px;
+  background-color: rgb(255, 111, 0);
+}
+.labelPage{
   color: rgb(10, 10, 57);
   display: inline-block;
   margin: 5px;

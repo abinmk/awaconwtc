@@ -125,6 +125,7 @@ function rotateDateFormat(dateString) {
 function selectPage(page) {
   chartContainer.style.display = 'none'; // Hide chart container
   document.getElementById('showChartButton').innerHTML="Show Chart";
+  document.getElementById('msg').style.display="none";
   currentPage = page;
   document.getElementById('dataCycle').innerHTML = `Data cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
@@ -218,6 +219,7 @@ function createChart(data) {
 
   document.getElementById('chartContainer').style.display = 'block';
   document.getElementById('showChartButton').innerHTML="Hide Chart";
+  document.getElementById('msg').style.display="block";
 }
 
 // Event listener for the button click
@@ -233,6 +235,7 @@ document.getElementById('showChartButton').addEventListener('click', () => {
   // Toggle chart container visibility
   if (chartContainer.style.display === 'block') {
     chartContainer.style.display = 'none'; // Hide chart container
+    document.getElementById('msg').style.display="none";
     document.getElementById('showChartButton').innerHTML="Show Chart";
     // chartContainer.remove(); // Optionally remove the chart container from the DOM
   } else {
@@ -246,6 +249,7 @@ document.getElementById('showChartButton').addEventListener('click', () => {
       {
         alert("No data found for the page:"+currentPage);
         chartContainer.style.display = 'none'; // Hide chart container
+        document.getElementById('msg').style.display="none";
         document.getElementById('showChartButton').innerHTML="Show Chart";
         return;
       }
