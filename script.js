@@ -126,7 +126,7 @@ function selectPage(page) {
   chartContainer.style.display = 'none'; // Hide chart container
   document.getElementById('showChartButton').innerHTML="Show Chart";
   currentPage = page;
-  document.getElementById('dataCycle').innerHTML = `Data cycle: ${page}`;
+  document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
   
   
