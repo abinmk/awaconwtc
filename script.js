@@ -74,6 +74,10 @@ function fetchDataForCurrentPage() {
         distanceCell.style.color = "black";
         motorStatus.innerHTML = "~MOTOR OFF";
     }
+    if (difference >=10) {
+      diff.style.backgroundColor = "yellow";
+      distanceCell.style.color = "black";
+  }
     prevDistance = currentDistance;
       });
       hideLoader();
@@ -175,12 +179,19 @@ function hideLoader() {
 }
 
 
+// Function to create the chart
 function createChart(data) {
   const timestamps = Object.keys(data);
   const distances = Object.values(data).map(entry => entry.Distance);
   const ctx = document.getElementById('distanceChart').getContext('2d');
 
-  const distanceChart = new Chart(ctx, {
+  // Check if a chart instance already exists
+  if (window.distanceChart && typeof window.distanceChart.destroy === 'function') {
+    window.distanceChart.destroy(); // Destroy the existing chart instance
+  }
+
+  // Create a new chart instance
+  window.distanceChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: timestamps,
@@ -189,7 +200,7 @@ function createChart(data) {
         data: distances,
         borderColor: 'blue',
         backgroundColor: 'transparent',
-        borderWidth: 2
+        borderWidth: 1
       }]
     },
     options: {
@@ -203,33 +214,35 @@ function createChart(data) {
       }
     }
   });
- 
+
   document.getElementById('chartContainer').style.display = 'block';
 }
-
-
 
 // Event listener for the button click
 document.getElementById('showChartButton').addEventListener('click', () => {
   const chartContainer = document.getElementById('chartContainer');
-  
+
+  // Check if chart container exists
+  if (!chartContainer) {
+    console.error('Chart container not found in the DOM');
+    return;
+  }
+
   // Toggle chart container visibility
   if (chartContainer.style.display === 'block') {
     chartContainer.style.display = 'none'; // Hide chart container
+    // chartContainer.remove(); // Optionally remove the chart container from the DOM
   } else {
     // Fetch data from Firebase
-    document.getElementById('chartContainer').style.display = 'block';
+    chartContainer.style.display = 'block';
     const databaseRef = firebase.database().ref('UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day1');
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
         createChart(distanceData); // Call the function to create the chart
-        chartContainer.style.display = 'block'; // Show chart container
       })
       .catch(error => {
         console.error('Error fetching data from Firebase:', error);
       });
   }
 });
-
-
