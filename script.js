@@ -67,12 +67,12 @@ function fetchDataForCurrentPage() {
         if (data.Distance >75) {
           distanceCell.style.backgroundColor = "yellow";
           distanceCell.style.color = "black";
-          motorStatus.innerHTML = "~MOTOR ON";
+          motorStatus.innerHTML = "~ON";
       }
       if (data.Distance <25) {
         distanceCell.style.backgroundColor = "lightgreen";
         distanceCell.style.color = "black";
-        motorStatus.innerHTML = "~MOTOR OFF";
+        motorStatus.innerHTML = "~OFF";
     }
     if (difference >=10) {
       diff.style.backgroundColor = "yellow";

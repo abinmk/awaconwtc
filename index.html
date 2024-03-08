@@ -82,11 +82,9 @@
     </table>
   </div>
   <div class="btn-class">
-    <button class="page-btn" onclick="selectPage(1)">Data 1</button>
-    <button class="page-btn" onclick="selectPage(2)">Data 2</button>
-    <button class="page-btn" onclick="selectPage(3)">Data 3</button>
-    <button class="page-btn" onclick="selectPage(4)">Data 4</button>
-    <button  class="page-btn" id="showChartButton">Chart</button>
+    <label for="pageSelector" id="labelPage">Select Page:</label>
+    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+    <button  class="page-btn" id="showChartButton">Chart View</button>
     <div id="chartContainer">
       <canvas id="distanceChart"></canvas>
     </div>
