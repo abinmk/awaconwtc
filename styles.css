@@ -95,11 +95,11 @@ body {
 }
 
 .export-button {
-  background-color: #00ba7c; /* Green background color */
+  background-color: #13c17b; /* Green background color */
   padding: 10px; /* Adjust padding as needed */
   font-size: 0; /* Hide text */
   border: none; /* Remove border */
-  border-radius: 8px; /* Make button circular */
+  border-radius: 10px; /* Make button circular */
   cursor: pointer;
   display: flex;
   margin-right: 50px;
@@ -123,7 +123,7 @@ body {
 .container {
   max-width: 100%;
   margin-top: 10vh;
-  padding: 5px;
+  padding: 20px;
   border-radius: 10px;
   border: #000000;
   border-width: 1px;
@@ -135,8 +135,8 @@ body {
 /* Scrollable data container */
 .data-container {
   z-index: 1000;
-  max-height: 75vh;
-  min-height: 75vh;
+  max-height: 74vh;
+  min-height: 74vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }

@@ -123,7 +123,8 @@ function rotateDateFormat(dateString) {
 
 // Function to select a specific page (dataset)
 function selectPage(page) {
-  
+  chartContainer.style.display = 'none'; // Hide chart container
+  document.getElementById('showChartButton').innerHTML="Show Chart";
   currentPage = page;
   document.getElementById('dataCycle').innerHTML = `Data cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
@@ -216,12 +217,13 @@ function createChart(data) {
   });
 
   document.getElementById('chartContainer').style.display = 'block';
+  document.getElementById('showChartButton').innerHTML="Hide Chart";
 }
 
 // Event listener for the button click
 document.getElementById('showChartButton').addEventListener('click', () => {
   const chartContainer = document.getElementById('chartContainer');
-
+  
   // Check if chart container exists
   if (!chartContainer) {
     console.error('Chart container not found in the DOM');
@@ -231,18 +233,28 @@ document.getElementById('showChartButton').addEventListener('click', () => {
   // Toggle chart container visibility
   if (chartContainer.style.display === 'block') {
     chartContainer.style.display = 'none'; // Hide chart container
+    document.getElementById('showChartButton').innerHTML="Show Chart";
     // chartContainer.remove(); // Optionally remove the chart container from the DOM
   } else {
     // Fetch data from Firebase
     chartContainer.style.display = 'block';
-    const databaseRef = firebase.database().ref('UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day1');
+    const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
+      if(distanceData==null)
+      {
+        alert("No data found for the page:"+currentPage);
+        chartContainer.style.display = 'none'; // Hide chart container
+        document.getElementById('showChartButton').innerHTML="Show Chart";
+        return;
+      }
+      else
         createChart(distanceData); // Call the function to create the chart
       })
-      .catch(error => {
+      .catch(error => { 
         console.error('Error fetching data from Firebase:', error);
       });
   }
 });
+
