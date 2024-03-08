@@ -191,7 +191,7 @@ function createChart(data) {
   if (window.distanceChart && typeof window.distanceChart.destroy === 'function') {
     window.distanceChart.destroy(); // Destroy the existing chart instance
   }
-
+  document.getElementById('chartContainer').style.display = 'block';
   // Create a new chart instance
   window.distanceChart = new Chart(ctx, {
     type: 'line',
@@ -216,8 +216,6 @@ function createChart(data) {
       }
     }
   });
-
-  document.getElementById('chartContainer').style.display = 'block';
   document.getElementById('showChartButton').innerHTML="Hide Chart";
   document.getElementById('msg').style.display="block";
 }

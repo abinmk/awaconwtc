@@ -135,8 +135,8 @@ body {
 /* Scrollable data container */
 .data-container {
   z-index: 1000;
-  max-height: 75vh;
-  min-height: 75vh;
+  max-height: 74vh;
+  min-height: 74vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
