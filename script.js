@@ -13,22 +13,18 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let currentPage = 1; // Default current page
-const totalDatasets = 4; // Total number of datasets
+let currentPageTemp=1;
+const totalDatasets = 30; // Total number of datasets
 
 // Function to fetch data for the current page and populate the corresponding table
 function fetchDataForCurrentPage() {
   showLoader();
   // Hide all tables first
-  document.querySelectorAll('.dataTable').forEach(table => {
-    table.style.display = 'none';
-  });
 
-  const tableId = `data${currentPage}`;
-  const table = document.getElementById(tableId);
+
+  const table = document.getElementById("data");
   const tbody = table.getElementsByTagName('tbody')[0];
   tbody.innerHTML = ''; // Clear previous data
-  table.style.display = ''; // Show the table for the current page
-
   const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
   let slNo=1;
   let prevDistance=0;
@@ -153,22 +149,22 @@ function formatTime(timestamp) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function exportToExcel() {
-  var wb = XLSX.utils.book_new();
+// function exportToExcel() {
+//   var wb = XLSX.utils.book_new();
 
-  // Iterate over each table
-  document.querySelectorAll('.dataTable').forEach((table, index) => {
-    // Get the table data
-    var ws = XLSX.utils.table_to_sheet(table);
+//   // Iterate over each table
+//   document.querySelectorAll('.dataTable').forEach((table, index) => {
+//     // Get the table data
+//     var ws = XLSX.utils.table_to_sheet(table);
     
-    // Set the sheet name based on the table ID
-    var sheetName = `Data${index + 1}`;
-    XLSX.utils.book_append_sheet(wb, ws, sheetName);
-  });
+//     // Set the sheet name based on the table ID
+//     var sheetName = `Data${index + 1}`;
+//     XLSX.utils.book_append_sheet(wb, ws, sheetName);
+//   });
 
-  // Export the workbook to Excel file
-  XLSX.writeFile(wb, "Awacon_Sensor_Data.xlsx");
-}
+//   // Export the workbook to Excel file
+//   XLSX.writeFile(wb, "Awacon_Sensor_Data.xlsx");
+// }
 // Function to show loader
 function showLoader() {
   document.getElementById('loader-overlay').style.display = 'flex';
@@ -257,7 +253,68 @@ document.getElementById('showChartButton').addEventListener('click', () => {
   }
 });
 
-function scrollToBottom() {
-  window.scrollTo(0,document.body.scrollHeight);
+
+function reloadData() {
+  selectPage(currentPage);
+  scrollToBottom();
 }
+
+function scrollToBottom() {
+  const tbody = document.getElementById("data").getElementsByTagName('tbody')[0];
+  tbody.scrollTop = tbody.scrollHeight;
+}
+
+// Function to export all datasets to Excel
+function exportToExcel() {
+  currentPageTemp = currentPage;
+  var wb = XLSX.utils.book_new();
+  totalSheets = 0; // Reset totalSheets variable
+
+  // Iterate over each dataset
+  for (let i = 1; i <= totalDatasets; i++) {
+    const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${i}`);
+    databaseRef.once('value')
+      .then(snapshot => {
+        const distanceData = snapshot.val();
+        if (distanceData) {
+          const sheetName = `Data${i}`;
+          const sheetData = convertDataToSheet(distanceData);
+          if (sheetData) {
+            XLSX.utils.book_append_sheet(wb, sheetData, sheetName);
+            totalSheets++; // Increment totalSheets for each added sheet
+          }
+        else{
+          // Export the workbook to Excel file after processing all datasets
+          XLSX.writeFile(wb, "Awacon_Sensor_Data.xlsx");
+          console.log(`Total sheets exported: ${totalSheets}`);
+         
+        }
+  }})
+      .catch(error => { 
+        console.error('Error fetching data from Firebase:', error);
+      });
+  }
+}
+
+// Function to convert table data to sheet format
+function convertDataToSheet() {
+  const sheet = {};
+  const table = document.getElementById('data'); // Assuming the table ID is 'data'
+  const rows = table.querySelectorAll('tbody tr');
+
+  for(let i=1;i<31;i++)
+  {
+    selectPage(i);
+  // Construct a two-dimensional array containing table data
+  const data = Array.from(rows).map(row => {
+    return Array.from(row.cells).map(cell => cell.textContent);
+  });
+
+  // Add the data to the sheet
+  XLSX.utils.sheet_add_aoa(sheet, data);
+  }
+  return sheet;
+}
+
+
 

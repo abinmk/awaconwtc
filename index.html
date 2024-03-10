@@ -28,7 +28,7 @@
     <div class="overlay" id="loadingOverlay">
       <div class="spinner"></div> <!-- Loading spinner -->
     </div>
-    <table border="1" class="dataTable" id="data1">
+    <table border="1" class="dataTable" id="data">
       <thead>
         <tr class="tableHeader">
           <th>Sl No</th>
@@ -39,51 +39,15 @@
           <th>Motor Status</th>
         </tr>
       </thead>
-      <tbody></tbody>
-    </table>
-    <table border="1" class="dataTable" id="data2">
-      <thead>
-        <tr class="tableHeader">
-          <th>Sl No</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Sensor Data</th>
-          <th>Difference</th>
-          <th>Motor Status</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <table border="1" class="dataTable" id="data3">
-      <thead>
-        <tr class="tableHeader">
-          <th>Sl No</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Sensor Data</th>
-          <th>Difference</th>
-          <th>Motor Status</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <table border="1" class="dataTable" id="data4">
-      <thead>
-        <tr class="tableHeader">
-          <th>Sl No</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Sensor Data</th>
-          <th>Difference</th>
-          <th>Motor Status</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
+      <tbody>
+      </tbody>
     </table>
   </div>
   <div class="btn-class">
     <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
     <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Reload</button>
+    <button  class="page-btn" id="sreloadButton" onclick="scrollToBottom()">ScrolReload</button>
     <button  class="page-btn" id="showChartButton">Show Chart</button>
     <div id="chartContainer">
       <canvas id="distanceChart"></canvas>
