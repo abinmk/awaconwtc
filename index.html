@@ -5,23 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AWACON</title>
 <link rel="stylesheet"  href="styles.css">
+<script src="fluid.js"></script>
 </head>
 <body onload="selectPage(1)">
 
   <div id="loader-overlay" class="loader-overlay">
     <div class="loader"></div>
   </div>   
+
 <div class="header-container">
   <img class="logo" src="logo.png">
   <p id="heading1">Real-Time Data : WTC SENSOR</p>
   <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i></button>
 </div>
 
+
+
+
 <div class="container">
   <div id="inputDiv">
-  <span id="dataCycle">Data Cycle: 1</span>
   <!-- <input type="number" id="delayInput" placeholder="Enter delay value in milliseconds">
    <button onclick="setDelayToFirebase()">Set Delay</button> -->
+    <div id="liveData">
+    
+      <div>
+        <span id="dataCycle">Data Cycle: 1</span>
+        <div>
+        <span>Date: </span>
+        <span id="liveDate">NA</span>
+        </div>
+        <div>
+        <span>Time : </span>
+        <span id="liveTime">NA</span>
+        </div>
+        <div>
+        <span>Distance : </span>
+        <span id="liveDistance">NA</span>
+        </div>
+      </div>
+
+      <div class="Liquid_container">
+        <div id="fluid-meter"></div>
+      </div>
+
+      <div id="chartContainer">
+        <canvas id="distanceChart"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn-class">
+    <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
+    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
+    <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
+
   </div>
   <br>
   <div class="data-container" id="dataContainer">
@@ -43,16 +82,7 @@
       </tbody>
     </table>
   </div>
-  <div class="btn-class">
-    <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
-    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
-    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Reload</button>
-    <!-- <button  class="page-btn" id="sreloadButton" onclick="scrollToBottom()">ScrolReload</button> -->
-    <button  class="page-btn" id="showChartButton">Show Chart</button>
-    <div id="chartContainer">
-      <canvas id="distanceChart"></canvas>
-    </div>
-  </div>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
@@ -62,5 +92,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <script src="script.js"></script>
+
 </body>
 </html>

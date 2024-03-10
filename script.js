@@ -15,6 +15,7 @@ firebase.initializeApp(firebaseConfig);
 let currentPage = 1; // Default current page
 let currentPageTemp=1;
 const totalDatasets = 30; // Total number of datasets
+let liveDistance = 0;
 
 // Function to fetch data for the current page and populate the corresponding table
 function fetchDataForCurrentPage() {
@@ -115,17 +116,48 @@ function rotateDateFormat(dateString) {
     return dateString; // Return original string if not in expected format
   }
 }
-
+var fm = new FluidMeter();
+fm.init({
+  targetContainer: document.getElementById("fluid-meter"),
+  fillPercentage: 15,
+  options: {
+    fontSize: "70px",
+    fontFamily: "Arial",
+    fontFillStyle: "white",
+    drawShadow: true,
+    drawText: true,
+    drawPercentageSign: true,
+    drawBubbles: true,
+    size: 300,
+    borderWidth: 25,
+    backgroundColor: "#e2e2e2",
+    foregroundColor: "#fafafa",
+    foregroundFluidLayer: {
+      fillStyle: "#0096FF",
+      angularSpeed: 100,
+      maxAmplitude: 12,
+      frequency: 30,
+      horizontalSpeed: -150
+    },
+    backgroundFluidLayer: {
+      fillStyle: "lightblue",
+      angularSpeed: 180,
+      maxAmplitude: 10,
+      frequency: 30,
+      horizontalSpeed: 150
+    }
+  }
+});
 
 // Function to select a specific page (dataset)
 function selectPage(page) {
-  chartContainer.style.display = 'none'; // Hide chart container
-  document.getElementById('showChartButton').innerHTML="Show Chart";
   currentPage = page;
   document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
-  
-  
+  showLiveData();
+  showChart();
+  showChart();
+  fm.setPercentage(mapToPercentage(liveDistance,20, 80));
 }
 
 
@@ -211,12 +243,12 @@ function createChart(data) {
       }
     }
   });
-  document.getElementById('showChartButton').innerHTML="Hide Chart";
+  // document.getElementById('showChartButton').innerHTML="Hide Chart";
   scrollToBottom();
 }
 
 // Event listener for the button click
-document.getElementById('showChartButton').addEventListener('click', () => {
+function showChart() {
   const chartContainer = document.getElementById('chartContainer');
   
   // Check if chart container exists
@@ -228,7 +260,7 @@ document.getElementById('showChartButton').addEventListener('click', () => {
   // Toggle chart container visibility
   if (chartContainer.style.display === 'block') {
     chartContainer.style.display = 'none'; // Hide chart container
-    document.getElementById('showChartButton').innerHTML="Show Chart";
+    // document.getElementById('showChartButton').innerHTML="Show Chart";
     // chartContainer.remove(); // Optionally remove the chart container from the DOM
   } else {
     // Fetch data from Firebase
@@ -241,7 +273,7 @@ document.getElementById('showChartButton').addEventListener('click', () => {
       {
         alert("No data found for the page:"+currentPage);
         chartContainer.style.display = 'none'; // Hide chart container
-        document.getElementById('showChartButton').innerHTML="Show Chart";
+        // document.getElementById('showChartButton').innerHTML="Show Chart";
         return;
       }
       else
@@ -251,12 +283,11 @@ document.getElementById('showChartButton').addEventListener('click', () => {
         console.error('Error fetching data from Firebase:', error);
       });
   }
-});
+}
 
 
 function reloadData() {
   selectPage(currentPage);
-  scrollToBottom();
 }
 
 function scrollToBottom() {
@@ -289,7 +320,7 @@ function exportToExcel() {
           console.log(`Total sheets exported: ${totalSheets}`);
          
         }
-  }})
+      }})
       .catch(error => { 
         console.error('Error fetching data from Firebase:', error);
       });
@@ -309,7 +340,6 @@ function convertDataToSheet() {
   const data = Array.from(rows).map(row => {
     return Array.from(row.cells).map(cell => cell.textContent);
   });
-
   // Add the data to the sheet
   XLSX.utils.sheet_add_aoa(sheet, data);
   }
@@ -318,3 +348,50 @@ function convertDataToSheet() {
 
 
 
+
+function showLiveData()
+{
+// Get a database reference to our posts
+const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
+// Listen for any new data added to the database
+databaseRef.on('child_added', snapshot => {
+    // Handle the new data here
+    const newData = snapshot.val();
+    console.log('New data added:', newData);
+    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
+    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
+    document.getElementById("liveDistance").innerHTML = newData.Distance;
+    liveDistance = newData.Distance;
+});
+
+// Optionally, you can also listen for changes in existing data
+databaseRef.on('child_changed', snapshot => {
+    // Handle changes to existing data here
+    const updatedData = snapshot.val();
+    console.log('Data updated:', updatedData);
+    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
+    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
+    document.getElementById("liveDistance").innerHTML = newData.Distance;
+    liveDistance = newData.Distance;
+});
+
+// Optionally, you can also listen for data removal
+databaseRef.on('child_removed', snapshot => {
+    // Handle data removal here
+    const removedData = snapshot.val();
+    console.log('Data removed:', removedData);
+    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
+    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
+    document.getElementById("liveDistance").innerHTML = newData.Distance;
+    liveDistance = newData.Distance;
+});
+}
+function mapToPercentage(value, min, max) {
+  // Ensure value is within the range [min, max]
+  value = Math.max(min, Math.min(max, value));
+  
+  // Map the value to percentage
+  let percentage = 100 - ((value - min) / (max - min)) * 100;
+  
+  return percentage;
+}
