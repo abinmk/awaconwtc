@@ -354,7 +354,7 @@ databaseRef.on('child_added', snapshot => {
     document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
     document.getElementById("liveDistance").innerHTML = newData.Distance;
     liveDistance = newData.Distance;
-    fm.setPercentage(mapToPercentage(liveDistance,20, 80));
+    fm.setPercentage(mapToPercentage(liveDistance,25, 75));
     
 });
 }
