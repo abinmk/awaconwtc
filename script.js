@@ -128,7 +128,7 @@ fm.init({
     drawText: true,
     drawPercentageSign: true,
     drawBubbles: true,
-    size: 300,
+    size: 350,
     borderWidth: 25,
     backgroundColor: "#e2e2e2",
     foregroundColor: "#fafafa",
@@ -163,13 +163,17 @@ function selectPage(page) {
 
 // Function to format timestamp to date
 function formatDate(timestamp) {
-  const date = new Date(timestamp * 1000);
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
+  // Create a new Date object by subtracting 5 hours and 30 minutes from the timestamp (multiplied by 1000 to convert seconds to milliseconds)
+  const date = new Date((timestamp - (5 * 3600 + 30 * 60)) * 1000);
+
+  // Extract year, month, and day from the adjusted date object
+  const year = date.getFullYear(); // Get the full year (e.g., 2024)
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Get the month (0-indexed, so add 1) and pad with leading zeros if needed (e.g., 02 for February)
+  const day = date.getDate().toString().padStart(2, '0'); // Get the day of the month and pad with leading zeros if needed (e.g., 07 for the 7th day)
+
+  // Return the formatted date string in "DD-MM-YYYY" format
   return `${day}-${month}-${year}`;
 }
-
 // Function to format timestamp to time
 function formatTime(timestamp) {
   const date = new Date(timestamp * 1000);
@@ -346,7 +350,7 @@ databaseRef.on('child_added', snapshot => {
     // Handle the new data here
     const newData = snapshot.val();
     console.log('New data added:', newData);
-    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
+    document.getElementById("liveDate").innerHTML = rotateDateFormat(formatDate(newData.Timestamp));
     document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
     document.getElementById("liveDistance").innerHTML = newData.Distance;
     liveDistance = newData.Distance;

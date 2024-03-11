@@ -20,10 +20,8 @@ function FluidMeter() {
     fontSize: "70px",
     fontFamily: "Arial",
     fontFillStyle: "white",
-    size: 300,
+    size: 500,
     borderWidth: 25,
-    backgroundColor: "#e2e2e2",
-    foregroundColor: "#fafafa"
   };
 
   var currentFillPercentage = 0;
@@ -31,11 +29,11 @@ function FluidMeter() {
 
   //#region fluid context values
   var foregroundFluidLayer = {
-    fillStyle: "purple",
+    fillStyle: "yellow",
     angle: 0,
     horizontalPosition: 0,
     angularSpeed: 0,
-    maxAmplitude: 9,
+    maxAmplitude: 11,
     frequency: 30,
     horizontalSpeed: -150,
     initialHeight: 0
@@ -58,7 +56,7 @@ function FluidMeter() {
     speed: 20,
     current: 0,
     swing: 0,
-    size: 2,
+    size: 4,
     reset: function (bubble) {
       // calculate the area where to spawn the bubble based on the fluid area
       var meterBottom = (options.size - (options.size - getMeterRadius()) / 2) - options.borderWidth;
