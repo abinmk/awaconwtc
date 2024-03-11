@@ -68,11 +68,12 @@ body {
   
 /* Sticky data cycle heading */
 #dataCycle {
-  position: sticky;
-  top:10vh; /* Adjust as needed based on your layout */
-  background-color: #ffffff;
-  font-size: 20px;
-  z-index: 100;
+  font-size: 30px;
+  color: #260606;
+  font-weight: 900;
+}
+#liveDistance,#liveTime ,#liveDate{
+  color: rgb(241, 2, 2);
 }
 
 /* Header styles */
@@ -204,6 +205,12 @@ th {
 #chartContainer{
   height: auto;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 40px;
+  padding: 40px;
+  margin: 40px;
 }
 #distanceChart{
   width: 100%;
@@ -234,16 +241,21 @@ border: none;
   }
 }
 #liveData{
-  background-color: #e4f1ff;
+  background-color: #ffffff;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content:space-evenly;
   width: 100%;
   align-items: center;
   padding: 20px;
-  color: #040713;
+  color: #0b0517;
   font-size: 15px;
   border-radius: 20px;
+}
+#liveDataValue{
+  padding: 40px;
+  border-radius: 20px;
+  font-size: 30px;
 }
 #showLiveBtn{
   display: inline-block;

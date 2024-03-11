@@ -23,12 +23,24 @@
 
 
 <div class="container">
+  <div class="btn-class">
+    <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
+    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
+    <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
+  </div>
   <div id="inputDiv">
   <!-- <input type="number" id="delayInput" placeholder="Enter delay value in milliseconds">
    <button onclick="setDelayToFirebase()">Set Delay</button> -->
     <div id="liveData">
+
     
-      <div>
+   
+
+      <div class="Liquid_container">
+        <div id="fluid-meter"></div>
+      </div>
+      <div id="liveDataValue">
         <span id="dataCycle">Data Cycle: 1</span>
         <div>
         <span>Date: </span>
@@ -41,11 +53,8 @@
         <div>
         <span>Distance : </span>
         <span id="liveDistance">NA</span>
+        <span>cm</span>
         </div>
-      </div>
-
-      <div class="Liquid_container">
-        <div id="fluid-meter"></div>
       </div>
 
       <div id="chartContainer">
@@ -55,13 +64,7 @@
     </div>
   </div>
 
-  <div class="btn-class">
-    <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
-    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
-    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
-    <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
 
-  </div>
   <br>
   <div class="data-container" id="dataContainer">
     <div class="overlay" id="loadingOverlay">

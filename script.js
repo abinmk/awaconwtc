@@ -154,10 +154,10 @@ function selectPage(page) {
   currentPage = page;
   document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
+  showChart();
   showLiveData();
-  showChart();
-  showChart();
-  fm.setPercentage(mapToPercentage(liveDistance,20, 80));
+  
+  
 }
 
 
@@ -256,15 +256,6 @@ function showChart() {
     console.error('Chart container not found in the DOM');
     return;
   }
-
-  // Toggle chart container visibility
-  if (chartContainer.style.display === 'block') {
-    chartContainer.style.display = 'none'; // Hide chart container
-    // document.getElementById('showChartButton').innerHTML="Show Chart";
-    // chartContainer.remove(); // Optionally remove the chart container from the DOM
-  } else {
-    // Fetch data from Firebase
-    chartContainer.style.display = 'block';
     const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
     databaseRef.once('value')
       .then(snapshot => {
@@ -272,18 +263,15 @@ function showChart() {
       if(distanceData==null)
       {
         alert("No data found for the page:"+currentPage);
-        chartContainer.style.display = 'none'; // Hide chart container
         // document.getElementById('showChartButton').innerHTML="Show Chart";
         return;
       }
-      else
         createChart(distanceData); // Call the function to create the chart
       })
       .catch(error => { 
         console.error('Error fetching data from Firebase:', error);
       });
   }
-}
 
 
 function reloadData() {
@@ -362,30 +350,12 @@ databaseRef.on('child_added', snapshot => {
     document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
     document.getElementById("liveDistance").innerHTML = newData.Distance;
     liveDistance = newData.Distance;
-});
-
-// Optionally, you can also listen for changes in existing data
-databaseRef.on('child_changed', snapshot => {
-    // Handle changes to existing data here
-    const updatedData = snapshot.val();
-    console.log('Data updated:', updatedData);
-    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
-    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
-    document.getElementById("liveDistance").innerHTML = newData.Distance;
-    liveDistance = newData.Distance;
-});
-
-// Optionally, you can also listen for data removal
-databaseRef.on('child_removed', snapshot => {
-    // Handle data removal here
-    const removedData = snapshot.val();
-    console.log('Data removed:', removedData);
-    document.getElementById("liveDate").innerHTML = formatDate(newData.Timestamp);
-    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
-    document.getElementById("liveDistance").innerHTML = newData.Distance;
-    liveDistance = newData.Distance;
+    fm.setPercentage(mapToPercentage(liveDistance,20, 80));
+    
 });
 }
+
+
 function mapToPercentage(value, min, max) {
   // Ensure value is within the range [min, max]
   value = Math.max(min, Math.min(max, value));
