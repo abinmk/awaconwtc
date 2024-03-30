@@ -7,85 +7,98 @@
 <link rel="stylesheet"  href="styles.css">
 <script src="fluid.js"></script>
 </head>
-<body onload="selectPage(1)">
-
-  <div id="loader-overlay" class="loader-overlay">
-    <div class="loader"></div>
-  </div>   
-
-<div class="header-container">
-  <img class="logo" src="logo.png">
-  <p id="heading1">Real-Time Data : WTC SENSOR</p>
-  <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i></button>
-</div>
-
-
-
-
-<div class="container">
-  <div class="btn-class">
-    <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
-    <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
-    <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
-    <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
+<body>
+  
+  <div id="entryScreen" class="entryBtn">
+    <div class="btnContainer">
+      <img class="logo" src="logo.png">
+      <div>Please select user</div>
+     
+    <button class="entrySubBtn" onclick="selectPage(1,'Abin M K')">Abin</button>
+    <button class="entrySubBtn"onclick="selectPage(1,'ULSAH U S')">Ulsah</button>
+    <button class="entrySubBtn"onclick="selectPage(1,'Aswin C P')">Aswin</button>
+    <button class="entrySubBtn"onclick="selectPage(1,'Rohith C M')">Rohith</button>
+    <button class="entrySubBtn"onclick="selectPage(1,'Abhishek Pavithran')">Abhishek</button>
+    </div>
   </div>
-  <div id="inputDiv">
-  <!-- <input type="number" id="delayInput" placeholder="Enter delay value in milliseconds">
-   <button onclick="setDelayToFirebase()">Set Delay</button> -->
-    <div id="liveData">
+  <div id="mainContent">
+    <div id="loader-overlay" class="loader-overlay">
+      <div class="loader"></div>
+    </div>   
 
+  <div class="header-container">
+    <img class="logo" src="logo.png">
+    <p id="heading1">Real-Time Data : WTC SENSOR</p>
+    <button class="export-button" onclick="exportToExcel()"><i class="fas fa-file-excel"></i></button>
+  </div>
+
+  <div class="container">
+    <div class="btn-class">
+      <button class="custom-button" id="changeUserBtn" onclick="selectUser()"><i class="fas fa-user"></i></button><span id="userDisplay">NA</span>
+      <br>
+      <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
+      <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+      <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
+      <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
+    </div>
+    <div id="inputDiv">
+    <!-- <input type="number" id="delayInput" placeholder="Enter delay value in milliseconds">
+    <button onclick="setDelayToFirebase()">Set Delay</button> -->
+      <div id="liveData">
+
+      
     
-   
 
-      <div class="Liquid_container">
-        <div id="fluid-meter"></div>
-      </div>
-      <div id="liveDataValue">
-        <span id="dataCycle">Data Cycle: 1</span>
-        <div>
-        <span>Date: </span>
-        <span id="liveDate">NA</span>
+        <div class="Liquid_container">
+          <div id="fluid-meter"></div>
         </div>
-        <div>
-        <span>Time : </span>
-        <span id="liveTime">NA</span>
+        <div id="liveDataValue">
+          <span id="dataCycle">Data Cycle: 1</span>
+          <div>
+          <span>Date: </span>
+          <span id="liveDate">NA</span>
+          </div>
+          <div>
+          <span>Time : </span>
+          <span id="liveTime">NA</span>
+          </div>
+          <div>
+          <span>Distance : </span>
+          <span id="liveDistance">NA</span>
+          <span>cm</span>
+          </div>
         </div>
-        <div>
-        <span>Distance : </span>
-        <span id="liveDistance">NA</span>
-        <span>cm</span>
-        </div>
-      </div>
 
-      <div id="chartContainer">
-        <canvas id="distanceChart"></canvas>
-      </div>
+        <div id="chartContainer">
+          <canvas id="distanceChart"></canvas>
+        </div>
 
+      </div>
     </div>
-  </div>
 
 
-  <br>
-  <div class="data-container" id="dataContainer">
-    <div class="overlay" id="loadingOverlay">
-      <div class="spinner"></div> <!-- Loading spinner -->
+    <br>
+    <div class="data-container" id="dataContainer">
+      <div class="overlay" id="loadingOverlay">
+        <div class="spinner"></div> <!-- Loading spinner -->
+      </div>
+      <table border="1" class="dataTable" id="data">
+        <thead>
+          <tr class="tableHeader">
+            <th>Sl No</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Sensor Data</th>
+            <th>Difference</th>
+            <th>Motor Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
     </div>
-    <table border="1" class="dataTable" id="data">
-      <thead>
-        <tr class="tableHeader">
-          <th>Sl No</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Sensor Data</th>
-          <th>Difference</th>
-          <th>Motor Status</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
 
+  </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>

@@ -30,6 +30,42 @@ body {
   position: relative;
   top:10px;
 }
+.entryBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entrySubBtn {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #0a236e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 220px;
+  transition: background-color 0.3s ease;
+}
+.btnContainer{
+  padding: 40px;
+  width: fit-content;
+  border-radius: 20px;
+  background-color: #f8f3f3;
+  margin-top: 80px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#changeUserBtn{
+ margin-right: 10px;
+}
+.entrySubBtn:hover {
+  background-color: #ff8112;
+
+}
 
 .page-btn:hover {
   background-color: #000000;
@@ -143,6 +179,16 @@ body {
   min-height: 74vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+
+#entryScreen{
+  margin-top: 5vh;
+  margin-bottom: 40vh;
+  display: flex;
+}
+
+#mainContent{
+  display: none;
 }
 
 /* Table styles */

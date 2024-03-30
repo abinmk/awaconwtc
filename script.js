@@ -16,6 +16,7 @@ let currentPage = 1; // Default current page
 let currentPageTemp=1;
 const totalDatasets = 30; // Total number of datasets
 let liveDistance = 0;
+let user ='abin';
 
 // Function to fetch data for the current page and populate the corresponding table
 function fetchDataForCurrentPage() {
@@ -150,14 +151,16 @@ fm.init({
 });
 
 // Function to select a specific page (dataset)
-function selectPage(page) {
+function selectPage(page,username) {
+  document.getElementById('entryScreen').style.display ="none";
+  document.getElementById('mainContent').style.display ="block";
+  user = username;
+  document.getElementById('userDisplay').innerHTML = username;
   currentPage = page;
   document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
   fetchDataForCurrentPage(); // Fetch data for the selected page
   showChart();
   showLiveData();
-  
-  
 }
 
 
@@ -250,6 +253,10 @@ function createChart(data) {
   // document.getElementById('showChartButton').innerHTML="Hide Chart";
   scrollToBottom();
 }
+function selectUser(){
+  document.getElementById('entryScreen').style.display ="flex";
+  document.getElementById('mainContent').style.display ="none";
+}
 
 // Event listener for the button click
 function showChart() {
@@ -279,7 +286,7 @@ function showChart() {
 
 
 function reloadData() {
-  selectPage(currentPage);
+  selectPage(currentPage,'abin');
 }
 
 function scrollToBottom() {
@@ -327,7 +334,7 @@ function convertDataToSheet() {
 
   for(let i=1;i<31;i++)
   {
-    selectPage(i);
+    //selectPage(i);
   // Construct a two-dimensional array containing table data
   const data = Array.from(rows).map(row => {
     return Array.from(row.cells).map(cell => cell.textContent);
