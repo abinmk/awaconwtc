@@ -14,11 +14,11 @@
       <img class="logo" src="logo.png">
       <div>Please select user</div>
      
-    <button class="entrySubBtn" onclick="selectPage(1,'Abin M K')">Abin</button>
-    <button class="entrySubBtn"onclick="selectPage(1,'ULSAH U S')">Ulsah</button>
-    <button class="entrySubBtn"onclick="selectPage(1,'Aswin C P')">Aswin</button>
-    <button class="entrySubBtn"onclick="selectPage(1,'Rohith C M')">Rohith</button>
-    <button class="entrySubBtn"onclick="selectPage(1,'Abhishek Pavithran')">Abhishek</button>
+    <button class="entrySubBtn" onclick="selectPage(0,'ABIN M K')">Abin</button>
+    <button class="entrySubBtn"onclick="selectPage(0,'ULSAH U S')">Ulsah</button>
+    <button class="entrySubBtn"onclick="selectPage(0,'ASWIN C P')">Aswin</button>
+    <button class="entrySubBtn"onclick="selectPage(0,'ROHITH C M')">Rohith</button>
+    <button class="entrySubBtn"onclick="selectPage(0,'ABHISHEK PAVITHRAN')">Abhishek</button>
     </div>
   </div>
   <div id="mainContent">
@@ -37,7 +37,7 @@
       <button class="custom-button" id="changeUserBtn" onclick="selectUser()"><i class="fas fa-user"></i></button><span id="userDisplay">NA</span>
       <br>
       <label for="pageSelector" class="labelPage">Select Data Cycle:</label>
-      <input id="pageSelector" class="page-btn" type="number" min="1" max="10" value="1" onchange="selectPage(this.value)">
+      <input id="pageSelector" class="page-btn" type="number" min="1" max="31" value="1">
       <button  class="page-btn" id="reloadButton" onclick="reloadData()">Load Data</button>
       <!-- <button  class="page-btn" id="showChartButton" onclick="showChart()">Show Chart</button> -->
     </div>

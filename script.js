@@ -12,7 +12,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-let currentPage = 1; // Default current page
+let currentPage = 30; // Default current page
 let currentPageTemp=1;
 const totalDatasets = 30; // Total number of datasets
 let liveDistance = 0;
@@ -27,7 +27,7 @@ function fetchDataForCurrentPage() {
   const table = document.getElementById("data");
   const tbody = table.getElementsByTagName('tbody')[0];
   tbody.innerHTML = ''; // Clear previous data
-  const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
+  const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
   let slNo=1;
   let prevDistance=0;
   databaseRef.once('value')
@@ -95,7 +95,7 @@ function fetchDataForCurrentPage() {
 //     return;
 //   }
 
-//   const delayRef = firebase.database().ref('UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/DataSetSL/Delay');
+//   const delayRef = firebase.database().ref('${user}/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/DataSetSL/Delay');
 
 //   // Set the delay value to Firebase
 //   delayRef.set(parseInt(delayValue))
@@ -154,13 +154,34 @@ fm.init({
 function selectPage(page,username) {
   document.getElementById('entryScreen').style.display ="none";
   document.getElementById('mainContent').style.display ="block";
-  user = username;
-  document.getElementById('userDisplay').innerHTML = username;
+  switch(username)
+  {
+    case "ABIN M K" : user = 'abin';break;
+    case "ULSAH U S" : user = 'ulsah';break;
+    case "ASWIN C P" : user = 'aswin';break;
+    case "ROHITH C M" : user = 'rohith';break;
+    case "ABHISHEK PAVITHRAN" : user = 'abhishek';break;
+    case "NA" : break;
+  }
+  console.log(user);
+  // Create a new Date object
+let currentDate = new Date();
+// Get the year, month, and day components from the Date object
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
+let day = currentDate.getDate();
+
+if(page==0)
+{
+  page = day;
+}
   currentPage = page;
-  document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
+  if(username!="NA")
+  document.getElementById('userDisplay').innerHTML = username;
   fetchDataForCurrentPage(); // Fetch data for the selected page
   showChart();
   showLiveData();
+  document.getElementById('dataCycle').innerHTML = `Data Cycle: ${page}`;
 }
 
 
@@ -267,13 +288,14 @@ function showChart() {
     console.error('Chart container not found in the DOM');
     return;
   }
-    const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
+    const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
       if(distanceData==null)
       {
         alert("No data found for the page:"+currentPage);
+        document.getElementById('dataCycle').innerHTML = `Data Cycle: ERROR!`;
         // document.getElementById('showChartButton').innerHTML="Show Chart";
         return;
       }
@@ -286,7 +308,8 @@ function showChart() {
 
 
 function reloadData() {
-  selectPage(currentPage,'abin');
+  currentPage= document.getElementById('pageSelector').value;
+  selectPage(currentPage,"NA");
 }
 
 function scrollToBottom() {
@@ -302,7 +325,7 @@ function exportToExcel() {
 
   // Iterate over each dataset
   for (let i = 1; i <= totalDatasets; i++) {
-    const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${i}`);
+    const databaseRef = firebase.database().ref(`${user}/readings/Day${i}`);
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
@@ -351,7 +374,7 @@ function convertDataToSheet() {
 function showLiveData()
 {
 // Get a database reference to our posts
-const databaseRef = firebase.database().ref(`UsersData/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/Day${currentPage}`);
+const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
 // Listen for any new data added to the database
 databaseRef.on('child_added', snapshot => {
     // Handle the new data here

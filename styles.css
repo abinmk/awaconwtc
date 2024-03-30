@@ -60,6 +60,8 @@ body {
 }
 
 #changeUserBtn{
+  margin-left: 5px;
+  font-size: 20px;
  margin-right: 10px;
 }
 .entrySubBtn:hover {
