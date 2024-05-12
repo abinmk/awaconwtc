@@ -160,6 +160,7 @@ function selectPage(page,username) {
     case "ULSAH U S" : user = 'ulsah';break;
     case "ASWIN C P" : user = 'aswin';break;
     case "ROHITH C M" : user = 'rohith';break;
+    case "ATHUL P" : user = 'athul';break;
     case "ABHISHEK PAVITHRAN" : user = 'abhishek';break;
     case "NA" : break;
   }
