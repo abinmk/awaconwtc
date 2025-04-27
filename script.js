@@ -27,7 +27,7 @@ function fetchDataForCurrentPage() {
   const table = document.getElementById("data");
   const tbody = table.getElementsByTagName('tbody')[0];
   tbody.innerHTML = ''; // Clear previous data
-  const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
+  const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
   let slNo=1;
   let prevDistance=0;
   databaseRef.once('value')
@@ -35,14 +35,14 @@ function fetchDataForCurrentPage() {
       snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val();
         const row = tbody.insertRow();
-        const formattedDate = rotateDateFormat(formatDate(data.Timestamp));
-        let currentDistance = parseInt(data.Distance);
+        const formattedDate = rotateDateFormat(formatDate(data.TIMESTAMP));
+        let currentDistance = parseInt(data.DISTANCE);
         let difference = prevDistance !== null ? Math.abs(currentDistance - prevDistance) : null;
         row.innerHTML = `
           <td>${slNo++}</td>
           <td>${formattedDate}</td>
-          <td>${formatTime(data.Timestamp)}</td>
-          <td class="row" id="distanceCell">${data.Distance} cm</td>
+          <td>${formatTime(data.TIMESTAMP)}</td>
+          <td class="row" id="distanceCell">${data.DISTANCE} cm</td>
           <td id="diff">${difference} cm</td>
           <td id="motorStatus">${"NA"}</td>
         `;
@@ -240,7 +240,7 @@ function hideLoader() {
 // Function to create the chart
 function createChart(data) {
   const timestamps = Object.keys(data);
-  const distances = Object.values(data).map(entry => entry.Distance);
+  const distances = Object.values(data).map(entry => entry.DISTANCE);
   const ctx = document.getElementById('distanceChart').getContext('2d');
 
   // Check if a chart instance already exists
@@ -289,7 +289,7 @@ function showChart() {
     console.error('Chart container not found in the DOM');
     return;
   }
-    const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
+    const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
@@ -326,7 +326,7 @@ function exportToExcel() {
 
   // Iterate over each dataset
   for (let i = 1; i <= totalDatasets; i++) {
-    const databaseRef = firebase.database().ref(`${user}/readings/Day${i}`);
+    const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${i}`);
     databaseRef.once('value')
       .then(snapshot => {
         const distanceData = snapshot.val();
@@ -375,16 +375,16 @@ function convertDataToSheet() {
 function showLiveData()
 {
 // Get a database reference to our posts
-const databaseRef = firebase.database().ref(`${user}/readings/Day${currentPage}`);
+const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
 // Listen for any new data added to the database
 databaseRef.on('child_added', snapshot => {
     // Handle the new data here
     const newData = snapshot.val();
     console.log('New data added:', newData);
-    document.getElementById("liveDate").innerHTML = rotateDateFormat(formatDate(newData.Timestamp));
-    document.getElementById("liveTime").innerHTML = formatTime(newData.Timestamp);
-    document.getElementById("liveDistance").innerHTML = newData.Distance;
-    liveDistance = newData.Distance;
+    document.getElementById("liveDate").innerHTML = rotateDateFormat(formatDate(newData.TIMESTAMP));
+    document.getElementById("liveTime").innerHTML = formatTime(newData.TIMESTAMP);
+    document.getElementById("liveDistance").innerHTML = newData.DISTANCE;
+    liveDistance = newData.DISTANCE;
     fm.setPercentage(mapToPercentage(liveDistance,25, 75));
     
 });
