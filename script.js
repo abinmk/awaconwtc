@@ -157,10 +157,20 @@ function fetchDataForCurrentPage() {
         distanceCell.style.color = "black";
         motorStatus.innerHTML = "~OFF";
     }
-    if (difference >=10) {
-      diff.style.backgroundColor = "yellow";
+    if (difference >=2) {
+      diff.style.backgroundColor = "bluue";
+      distanceCell.style.color = "white";
+    }
+    if (difference >=5) {
+      diff.style.backgroundColor = "orange";
       distanceCell.style.color = "black";
   }
+    if (difference >=10) {
+      diff.style.backgroundColor = "red";
+      distanceCell.style.color = "white";
+  }
+ 
+
     prevDistance = currentDistance;
       });
       hideLoader();
