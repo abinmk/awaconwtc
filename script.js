@@ -18,6 +18,91 @@ const totalDatasets = 30; // Total number of datasets
 let liveDistance = 0;
 let user ='abin';
 
+let distanceChart;
+let chartInitialized = false;
+
+function initializeChart() {
+  const ctx = document.getElementById('distanceChart').getContext('2d');
+
+  distanceChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Distance (cm)',
+        data: [],
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+        borderWidth: 2,
+        tension: 0.3, // Smooth lines
+        pointRadius: 3,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        },
+        legend: {
+          display: true,
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: 'Real-Time Distance Chart'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Timestamp'
+          },
+          grid: {
+            display: true
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Distance (cm)'
+          },
+          grid: {
+            display: true
+          }
+        }
+      }
+    }
+  });
+
+  chartInitialized = true;
+}
+
+function startRealtimeChart(systemId, currentPage) {
+  if (!chartInitialized) {
+    initializeChart();
+  }
+
+  const dataRef = firebase.database().ref(`TESTING/WTC/${systemId}/DATA/DAY_${currentPage}`);
+
+  dataRef.on('child_added', snapshot => {
+    const key = snapshot.key;
+    const value = snapshot.val();
+
+    // Avoid duplicates
+    if (!distanceChart.data.labels.includes(key)) {
+      distanceChart.data.labels.push(key);
+      distanceChart.data.datasets[0].data.push(value.DISTANCE || 0);
+      distanceChart.update();
+    }
+  });
+}
+
+
+
 // Function to fetch data for the current page and populate the corresponding table
 function fetchDataForCurrentPage() {
   showLoader();
@@ -239,6 +324,7 @@ function hideLoader() {
 
 // Function to create the chart
 function createChart(data) {
+  
   const timestamps = Object.keys(data);
   const distances = Object.values(data).map(entry => entry.DISTANCE);
   const ctx = document.getElementById('distanceChart').getContext('2d');
@@ -300,7 +386,9 @@ function showChart() {
         // document.getElementById('showChartButton').innerHTML="Show Chart";
         return;
       }
-        createChart(distanceData); // Call the function to create the chart
+      console.log(currentPage);
+      startRealtimeChart('WTC_BX_44fdeb', currentPage);
+        // createChart(distanceData); // Call the function to create the chart
       })
       .catch(error => { 
         console.error('Error fetching data from Firebase:', error);
@@ -311,6 +399,10 @@ function showChart() {
 function reloadData() {
   currentPage= document.getElementById('pageSelector').value;
   selectPage(currentPage,"NA");
+  distanceChart.destroy();
+  chartInitialized = false;
+  initializeChart();
+
 }
 
 function scrollToBottom() {
