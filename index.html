@@ -10,7 +10,7 @@
 <body>
   
   <div id="entryScreen" class="entryBtn">
-    <div class="btnContainer">
+    <!-- <div class="btnContainer">
       <img class="logo" src="logo.png">
       <div>Please select user</div>
      
@@ -20,7 +20,7 @@
     <button class="entrySubBtn"onclick="selectPage(0,'ROHITH C M')">Rohith</button>
     <button class="entrySubBtn"onclick="selectPage(0,'ATHUL P')">Athul</button>
     <button class="entrySubBtn"onclick="selectPage(0,'ABHISHEK PAVITHRAN')">Abhishek</button>
-    </div>
+    </div> -->
   </div>
   <div id="mainContent">
     <div id="loader-overlay" class="loader-overlay">
@@ -70,9 +70,9 @@
           </div>
         </div>
 
-        <div id="chartContainer">
+        <!-- <div id="chartContainer">
           <canvas id="distanceChart"></canvas>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -83,14 +83,19 @@
       <div class="overlay" id="loadingOverlay">
         <div class="spinner"></div> <!-- Loading spinner -->
       </div>
+      <div id="pagination-container" class="pagination-container"></div>
       <table border="1" class="dataTable" id="data">
         <thead>
           <tr class="tableHeader">
             <th>Sl No</th>
             <th>Date</th>
             <th>Time</th>
-            <th>Sensor Data</th>
+            <th>Calibrated Data</th>
+            <th>Live Data</th>
             <th>Difference</th>
+            <th>Dry run Status</th>
+            <th>High Point</th>
+            <th>Low Point</th>
             <th>Motor Status</th>
           </tr>
         </thead>

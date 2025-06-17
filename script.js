@@ -106,15 +106,15 @@ function startRealtimeChart(systemId, currentPage) {
 // Function to fetch data for the current page and populate the corresponding table
 function fetchDataForCurrentPage() {
   showLoader();
-  // Hide all tables first
-
 
   const table = document.getElementById("data");
   const tbody = table.getElementsByTagName('tbody')[0];
   tbody.innerHTML = ''; // Clear previous data
+
   const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
-  let slNo=1;
-  let prevDistance=0;
+  let slNo = 1;
+  let prevDistance = 0;
+
   databaseRef.once('value')
     .then(snapshot => {
       snapshot.forEach(childSnapshot => {
@@ -123,90 +123,70 @@ function fetchDataForCurrentPage() {
         const formattedDate = rotateDateFormat(formatDate(data.TIMESTAMP));
         let currentDistance = parseInt(data.DISTANCE);
         let difference = prevDistance !== null ? Math.abs(currentDistance - prevDistance) : null;
+
+        // Set row content using class names
         row.innerHTML = `
           <td>${slNo++}</td>
           <td>${formattedDate}</td>
           <td>${formatTime(data.TIMESTAMP)}</td>
-          <td class="row" id="distanceCell">${data.DISTANCE} cm</td>
-          <td id="diff">${difference} cm</td>
-          <td id="motorStatus">${"NA"}</td>
+          <td class="distanceCell">${data.DISTANCE} cm</td>
+          <td>${data.LIVE_DISTANCE} cm</td>
+          <td class="diff">${difference} cm</td>
+          <td>${data.DRYRUN_STATUS} </td>
+          <td>${data.HIGH_POINT} cm</td>
+          <td>${data.LOW_POINT} cm</td>
+          <td class="motorStatus">${data.MOTOR_STATUS}</td>
         `;
-        const distanceCell = row.querySelector('#distanceCell');
-        const diff = row.querySelector('#diff');
-        const motorStatus = row.querySelector('#motorStatus'); // Select motorStatus cell
 
-        if (data.Distance === "ERR_PWR") {
-            prevDistance=0;
-            distanceCell.style.backgroundColor = "red";
-            distanceCell.innerHTML = "ERR_PWR";
-            distanceCell.style.color = "white";
-            diff.innerHTML = "NA";
-        }
-        if(prevDistance==0 || prevDistance==null)
-        {
+        // Select the correct elements using class
+        const distanceCell = row.querySelector('.distanceCell');
+        const diff = row.querySelector('.diff');
+        const motorStatus = row.querySelector('.motorStatus');
+
+        if (!distanceCell || !diff || !motorStatus) return; // Safety check
+
+        // Handle error case
+        if (data.DISTANCE === "ERR_PWR") {
+          prevDistance = 0;
+          distanceCell.style.backgroundColor = "red";
+          distanceCell.innerHTML = "ERR_PWR";
+          distanceCell.style.color = "white";
           diff.innerHTML = "NA";
+        } else {
+          if (data.DISTANCE > 75) {
+            distanceCell.style.backgroundColor = "yellow";
+            distanceCell.style.color = "black";
+            motorStatus.innerHTML = "~ON";
+          } else if (data.DISTANCE < 15) {
+            distanceCell.style.backgroundColor = "lightgreen";
+            distanceCell.style.color = "black";
+            motorStatus.innerHTML = "~OFF";
+          }
+
+          // Highlight differences
+          if (difference >= 10) {
+            diff.style.backgroundColor = "red";
+          } else if (difference >= 5) {
+            diff.style.backgroundColor = "orange";
+          } else if (difference >= 1) {
+            diff.style.backgroundColor = "blue";
+          }
+
+          if (difference >= 1) {
+            diff.style.color = "white";
+            diff.style.fontWeight = "bold";
+          }
         }
 
-        if (data.Distance >75) {
-          distanceCell.style.backgroundColor = "yellow";
-          distanceCell.style.color = "black";
-          motorStatus.innerHTML = "~ON";
-      }
-      if (data.Distance <25) {
-        distanceCell.style.backgroundColor = "lightgreen";
-        distanceCell.style.color = "black";
-        motorStatus.innerHTML = "~OFF";
-    }
-    if (difference >=1) {
-      diff.style.backgroundColor = "blue";
-      distanceCell.style.color = "black";
-      diff.style.color = "white";
-      diff.style.fontWeight = "bold";
-    }
-    if (difference >=5) {
-      diff.style.backgroundColor = "orange";
-      distanceCell.style.color = "black";
-      diff.style.color = "white";
-      diff.style.fontWeight = "bold";
-  }
-    if (difference >=10) {
-      diff.style.backgroundColor = "red";
-      distanceCell.style.color = "black";
-      diff.style.color = "white";
-      diff.style.fontWeight = "bold";
-  }
- 
-
-    prevDistance = currentDistance;
+        prevDistance = currentDistance;
       });
+
       hideLoader();
     })
     .catch(error => {
-      console.error('Error fetching data:', error); 
+      console.error('Error fetching data:', error);
     });
-   
 }
-
-// function setDelayToFirebase() {
-//   const delayInput = document.getElementById('delayInput');
-//   const delayValue = delayInput.value;
-
-//   if (!delayValue) {
-//     alert("Please enter a delay value");
-//     return;
-//   }
-
-//   const delayRef = firebase.database().ref('${user}/4P7aUzvuI8RM0Pb2dPACF3V9SCz2/readings/DataSetSL/Delay');
-
-//   // Set the delay value to Firebase
-//   delayRef.set(parseInt(delayValue))
-//     .then(() => {
-//       console.log("Delay value has been set successfully");
-//     })
-//     .catch(error => {
-//       console.error("Error setting delay value:", error);
-//     });
-// }
 
 
 function rotateDateFormat(dateString) {
@@ -250,6 +230,8 @@ fm.init({
     }
   }
 });
+
+selectPage(0,'ABIN M K');
 
 // Function to select a specific page (dataset)
 function selectPage(page,username) {
@@ -311,23 +293,6 @@ function formatTime(timestamp) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-// function exportToExcel() {
-//   var wb = XLSX.utils.book_new();
-
-//   // Iterate over each table
-//   document.querySelectorAll('.dataTable').forEach((table, index) => {
-//     // Get the table data
-//     var ws = XLSX.utils.table_to_sheet(table);
-    
-//     // Set the sheet name based on the table ID
-//     var sheetName = `Data${index + 1}`;
-//     XLSX.utils.book_append_sheet(wb, ws, sheetName);
-//   });
-
-//   // Export the workbook to Excel file
-//   XLSX.writeFile(wb, "Awacon_Sensor_Data.xlsx");
-// }
-// Function to show loader
 function showLoader() {
   document.getElementById('loader-overlay').style.display = 'flex';
 }
@@ -387,10 +352,10 @@ function showChart() {
   const chartContainer = document.getElementById('chartContainer');
   
   // Check if chart container exists
-  if (!chartContainer) {
-    console.error('Chart container not found in the DOM');
-    return;
-  }
+  // if (!chartContainer) {
+  //   console.error('Chart container not found in the DOM');
+  //   return;
+  // }
     const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
     databaseRef.once('value')
       .then(snapshot => {
@@ -403,7 +368,7 @@ function showChart() {
         return;
       }
       console.log(currentPage);
-      startRealtimeChart('WTC_BX_44fdeb', currentPage);
+      // startRealtimeChart('WTC_BX_44fdeb', currentPage);
         // createChart(distanceData); // Call the function to create the chart
       })
       .catch(error => { 
@@ -415,9 +380,9 @@ function showChart() {
 function reloadData() {
   currentPage= document.getElementById('pageSelector').value;
   selectPage(currentPage,"NA");
-  distanceChart.destroy();
+  // distanceChart.destroy();
   chartInitialized = false;
-  initializeChart();
+  // initializeChart();
 
 }
 
@@ -427,55 +392,26 @@ function scrollToBottom() {
 }
 
 // Function to export all datasets to Excel
-function exportToExcel() {
-  currentPageTemp = currentPage;
-  var wb = XLSX.utils.book_new();
-  totalSheets = 0; // Reset totalSheets variable
 
-  // Iterate over each dataset
-  for (let i = 1; i <= totalDatasets; i++) {
-    const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${i}`);
-    databaseRef.once('value')
-      .then(snapshot => {
-        const distanceData = snapshot.val();
-        if (distanceData) {
-          const sheetName = `Data${i}`;
-          const sheetData = convertDataToSheet(distanceData);
-          if (sheetData) {
-            XLSX.utils.book_append_sheet(wb, sheetData, sheetName);
-            totalSheets++; // Increment totalSheets for each added sheet
-          }
-        else{
-          // Export the workbook to Excel file after processing all datasets
-          XLSX.writeFile(wb, "Awacon_Sensor_Data.xlsx");
-          console.log(`Total sheets exported: ${totalSheets}`);
-         
-        }
-      }})
-      .catch(error => { 
-        console.error('Error fetching data from Firebase:', error);
-      });
-  }
-}
 
 // Function to convert table data to sheet format
-function convertDataToSheet() {
-  const sheet = {};
-  const table = document.getElementById('data'); // Assuming the table ID is 'data'
-  const rows = table.querySelectorAll('tbody tr');
+// function convertDataToSheet() {
+//   const sheet = {};
+//   const table = document.getElementById('data'); // Assuming the table ID is 'data'
+//   const rows = table.querySelectorAll('tbody tr');
 
-  for(let i=1;i<31;i++)
-  {
-    //selectPage(i);
-  // Construct a two-dimensional array containing table data
-  const data = Array.from(rows).map(row => {
-    return Array.from(row.cells).map(cell => cell.textContent);
-  });
-  // Add the data to the sheet
-  XLSX.utils.sheet_add_aoa(sheet, data);
-  }
-  return sheet;
-}
+//   for(let i=1;i<31;i++)
+//   {
+//     //selectPage(i);
+//   // Construct a two-dimensional array containing table data
+//   const data = Array.from(rows).map(row => {
+//     return Array.from(row.cells).map(cell => cell.textContent);
+//   });
+//   // Add the data to the sheet
+//   XLSX.utils.sheet_add_aoa(sheet, data);
+//   }
+//   return sheet;
+// }
 
 
 
@@ -508,3 +444,143 @@ function mapToPercentage(value, min, max) {
   
   return percentage;
 }
+
+
+function convertDataToSheet(distanceData) {
+  const sheet = {};
+
+  // --- Meta info ---
+  const metaData = [
+    ['Company Name', 'AWACON WTC'],
+    ['Date Generated', new Date().toLocaleString()]
+  ];
+  XLSX.utils.sheet_add_aoa(sheet, metaData, { origin: 'A1' });
+
+  const metaStyle = {
+    font: { bold: true, sz: 14, color: { rgb: '000000' } },
+    fill: { fgColor: { rgb: 'EDEDED' } },
+    alignment: { horizontal: 'left' }
+  };
+  ['A1', 'A2'].forEach(cell => {
+    if (sheet[cell]) {
+      sheet[cell].s = metaStyle;
+    }
+  });
+
+  // --- Headers ---
+  const headerRow = [
+    'Date', 'Time', 'Distance (cm)', 'Live Distance (cm)', 'Difference (cm)',
+    'Dry Run Status', 'High Point', 'Low Point', 'Motor Status'
+  ];
+  XLSX.utils.sheet_add_aoa(sheet, [headerRow], { origin: 'A4' });
+
+  const headerStyle = {
+    font: { bold: true, color: { rgb: 'FFFFFF' } },
+    fill: { fgColor: { rgb: '1F4E78' } },
+    alignment: { horizontal: 'center', vertical: 'center' },
+    border: {
+      top: { style: 'thin', color: { rgb: 'AAAAAA' } },
+      bottom: { style: 'thin', color: { rgb: 'AAAAAA' } }
+    }
+  };
+
+  for (let i = 0; i < headerRow.length; i++) {
+    const colLetter = String.fromCharCode(65 + i); // 'A' = 65
+    const cellRef = colLetter + '4';
+    if (sheet[cellRef]) {
+      sheet[cellRef].s = headerStyle;
+    }
+  }
+
+  // --- Data Rows ---
+  const data = [];
+  let prevDistance = null;
+
+  Object.entries(distanceData).forEach(([key, entry]) => {
+    const dateStr = rotateDateFormat(formatDate(entry.TIMESTAMP));;
+    const timeStr = formatTime(entry.TIMESTAMP);
+
+    const distance = parseInt(entry.DISTANCE) || "ERR_PWR || 0";
+    const liveDistance = parseInt(entry.LIVE_DISTANCE) || 0;
+    console.log(entry);
+    const dryRun = (entry.DRYRUN_STATUS === true) ? 'TRUE' :
+    (entry.MOTOR_STATUS === false) ? 'FALSE' : '';
+    const highPoint = entry.HIGH_POINT || '';
+    const lowPoint = entry.LOW_POINT || '';
+    const motorStatus = (entry.MOTOR_STATUS === true) ? 'ON' :
+    (entry.MOTOR_STATUS === false) ? 'OFF' : '';
+
+    let difference = 'N/A';
+    if (prevDistance !== null && !isNaN(distance)) {
+      difference = Math.abs(distance - prevDistance);
+    }
+
+    prevDistance = !isNaN(distance) ? distance : prevDistance;
+
+    data.push([
+      dateStr, timeStr, distance, liveDistance, difference,
+      dryRun, highPoint, lowPoint, motorStatus
+    ]);
+  });
+
+  XLSX.utils.sheet_add_aoa(sheet, data, { origin: 'A5' });
+
+  // --- Alternate Row Styling ---
+  const rowStyle1 = { fill: { fgColor: { rgb: 'F9F9F9' } }, alignment: { horizontal: 'left' } };
+  const rowStyle2 = { fill: { fgColor: { rgb: 'FFFFFF' } }, alignment: { horizontal: 'left' } };
+
+  for (let i = 0; i < data.length; i++) {
+    const rowNumber = i + 5;
+    for (let j = 0; j < headerRow.length; j++) {
+      const col = String.fromCharCode(65 + j); // 'A', 'B', ...
+      const cellRef = col + rowNumber;
+      if (sheet[cellRef]) {
+        sheet[cellRef].s = i % 2 === 0 ? rowStyle1 : rowStyle2;
+      }
+    }
+  }
+
+  // --- Column widths ---
+  sheet['!cols'] = headerRow.map(() => ({ wch: 18 }));
+
+  // --- Freeze header row ---
+  sheet['!freeze'] = { xSplit: 0, ySplit: 4 };
+
+  return sheet;
+}
+function exportToExcel() {
+  // console.log("excelprint");
+  const wb = XLSX.utils.book_new();
+  totalSheets = 0; // Reset totalSheets variable
+
+  // Iterate over each dataset
+  // for (let i = 1; i <= totalDatasets; i++) {
+    const databaseRef = firebase.database().ref(`TESTING/WTC/WTC_BX_44fdeb/DATA/DAY_${currentPage}`);
+    databaseRef.once('value')
+      .then(snapshot => {
+        const distanceData = snapshot.val();
+        // console.log("i"+i+distanceData);
+        console.log(distanceData);
+        if (distanceData) {
+          const sheetName = `Data${currentPage}`;
+          const sheetData = convertDataToSheet(distanceData);
+          if (sheetData) {
+            XLSX.utils.book_append_sheet(wb, sheetData, sheetName);
+            totalSheets++; // Increment totalSheets for each added sheet
+          }
+        }
+        const now = new Date();
+        const date = now.toLocaleDateString().replace(/\//g, '-'); // e.g., 17-06-2025
+        const time = now.toLocaleTimeString().replace(/:/g, '-').replace(/\s/g, ''); // e.g., 2348PM or 23-48
+        const filename = `Awacon_Sensor_Data_${date}_${time}.xlsx`;
+      
+        XLSX.writeFile(wb, filename);
+          console.log(`Total sheets exported: ${totalSheets}`);
+      })
+      .catch(error => { 
+        console.error('Error fetching data from Firebase:', error);
+      });
+  }
+// }
+
+
